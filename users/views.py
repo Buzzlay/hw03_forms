@@ -7,7 +7,7 @@ from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
 
 #  импортируем класс формы, чтобы сослаться на неё во view-классе
-from .forms import CreationForm, ContactForm
+from .forms import CreationForm, ContactForm, PostForm
 
 
 class SignUp(CreateView):
@@ -52,3 +52,16 @@ def user_contact(request):
     # пусть пользователь напишет что-нибудь
     form = ContactForm()
     return render(request, 'contact.html', {'form': form})
+
+
+def new_post(request):
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            group = form.cleaned_data['group']
+            text = form.cleaned_data['text']
+            form.save()
+            return redirect('')
+        return render(request, 'newpost.html', {'form': form})
+    form = PostForm()
+    return render(request, 'newpost.html', {'form': form})
