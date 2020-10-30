@@ -9,6 +9,8 @@ from django.shortcuts import render, redirect
 #  импортируем класс формы, чтобы сослаться на неё во view-классе
 from .forms import CreationForm, ContactForm, PostForm
 
+from posts.models import Post
+
 
 class SignUp(CreateView):
     form_class = CreationForm
@@ -38,7 +40,7 @@ def user_contact(request):
             # Функция redirect перенаправляет пользователя
             # на другую страницу сайта, чтобы защититься
             # от повторного заполнения формы
-            return redirect('/')
+            return redirect('')
 
         # если условие if form.is_valid() ложно и данные не прошли валидацию -
         # передадим полученный объект в шаблон
@@ -58,10 +60,12 @@ def new_post(request):
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
-            group = form.cleaned_data['group']
-            text = form.cleaned_data['text']
-            form.save()
-            return redirect('')
+            post = Post()
+            post.author = request.user
+            post.text = form.cleaned_data['text']
+            post.group = form.cleaned_data['group']
+            post.save()
+            return redirect('index')
         return render(request, 'newpost.html', {'form': form})
     form = PostForm()
     return render(request, 'newpost.html', {'form': form})
