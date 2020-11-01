@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.db import models
 from django.contrib.auth import get_user_model
 
@@ -35,7 +37,8 @@ class Post(models.Model):
     def __str__(self):
         return f'Автор: {self.author}, ' \
                f'группа: {self.group}, ' \
-               f'дата публикации: {self.pub_date}'
+               f'дата публикации: {self.pub_date}, ' \
+               f'начало поста:{self.text[:50]}...'
 
 
 class NewPost(models.Model):
