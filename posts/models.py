@@ -23,16 +23,26 @@ class Post(models.Model):
                                related_name="posts"
                                )
     group = models.ForeignKey(Group,
-                              related_name="group",
+                              related_name="posts",
                               on_delete=models.SET_NULL,
                               blank=True,
                               null=True
                               )
 
     class Meta:
-        ordering = ['-pub_date']
+        ordering = ('-pub_date',)
 
     def __str__(self):
         return f'Автор: {self.author}, ' \
                f'группа: {self.group}, ' \
                f'дата публикации: {self.pub_date}'
+
+
+class NewPost(models.Model):
+    group = models.ForeignKey(Group,
+                              related_name="new_group_posts",
+                              on_delete=models.SET_NULL,
+                              blank=True,
+                              null=True
+                              )
+    text = models.TextField()
