@@ -1,11 +1,11 @@
 from django import forms
 
-from .models import NewPost
+from .models import Post
 
 
 class PostForm(forms.ModelForm):
     class Meta:
-        model = NewPost
+        model = Post
         fields = ('group', 'text')
 
     def clean_text(self):
