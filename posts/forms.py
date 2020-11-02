@@ -10,6 +10,8 @@ class PostForm(forms.ModelForm):
 
     def clean_text(self):
         data = self.cleaned_data['text']
-        if data == "":
-            raise forms.ValidationError("А текст кто писать будет?!")
+        f_word = 'козёл'
+        # Если появится время можно написать фильтр мата, тема стара как мир - информации много (как это сделать)
+        if f_word in data:
+            raise forms.ValidationError("У нас приличное сообщество - попрошу не выражаться!")
         return data
